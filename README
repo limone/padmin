@@ -1,1 +1,10 @@
-*** Something Something ***
+Required node.js Modules:
+express
+express-chromeframe
+ejs
+orm
+pg
+socket.io
+
+Development Modules:
+nodemon
