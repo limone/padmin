@@ -4,6 +4,8 @@ var express = require('express'),
   orm = require('orm');
 
 var app = module.exports = express.createServer();
+require('./routes')(app);
+
 var sio = io.listen(app);
 var db = orm.connect("postgresql://powerdns:powerdns2k10^^@plop:5433/powerdns", function (success, db) {
     if (!success) {
@@ -26,7 +28,6 @@ var db = orm.connect("postgresql://powerdns:powerdns2k10^^@plop:5433/powerdns", 
 });
 
 // Configuration
-
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
@@ -44,17 +45,6 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(express.errorHandler()); 
-});
-
-// Routes
-app.get('/', routes.index);
-app.get('/domains.json', function(req, res){
-  var json = {
-  'aaData': [ [
-    'lf.io', 'master', '3', 'michael'
-  ] ]
-  };
-  res.send(JSON.stringify(json));
 });
 
 app.listen(3000);

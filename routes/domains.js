@@ -1,8 +1,8 @@
-exports.domains = function(req, res){
+exports.domains = function(req, res) {
   var json = {
-  "aaData": [
+  'aaData': [ [
     'lf.io', 'master', '3', 'michael'
-            ]
+  ] ]
   };
   res.send(JSON.stringify(json));
 };
