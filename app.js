@@ -1,7 +1,7 @@
 var express = require('express'),
   routes = require('./routes'),
   io = require('socket.io'),
-  orm = require("orm");
+  orm = require('orm');
 
 var app = module.exports = express.createServer();
 var sio = io.listen(app);
