@@ -1,10 +1,10 @@
 exports.domains = function(req, res) {
-  req.app.findDomains();
-  
-  var json = {
-  'aaData': [ [
-    'lf.io', 'master', '3', 'michael'
-  ] ]
-  };
-  res.send(JSON.stringify(json));
+    req.app.pg.query("SELECT * FROM domains", function(err, result) {
+        console.log("Row count: %d", result.rows.length);
+        for (var x = 0; x<result.rows.length; x++) {
+            var domain = result.rows[x];
+            console.log(domain);
+        }
+    });
+    res.send(JSON.stringify(''));
 };

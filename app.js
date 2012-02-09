@@ -1,41 +1,16 @@
 var express = require('express'),
   routes = require('./routes'),
   io = require('socket.io'),
-  orm = require('orm');
+  pg = require('pg');
   
 var index = require('./routes/index');
 var domains = require('./routes/domains');
 
 var app = module.exports = express.createServer();
 var sio = io.listen(app);
-var db = orm.connect("postgresql://powerdns:powerdns2k10^^@plop:5433/powerdns", function (success, db) {
-    if (!success) {
-        console.log("Could not connect to database!" + db.message);
-        return;
-    } else {
-      console.log('Connected to PG just fine.');
-    }
 
-    // you can now use db variable to define models
-    var Domain = db.define('domain', {
-      'id' : {'type':'int'},
-      'name' : {'type': 'string'},
-      'master' : {'type' : 'string'},
-      'last_check' : {'type' : 'int'},
-      'type' : {'type' : 'string'},
-      'notified_serial' : {'type' : 'integer'},
-      'account' : {'type' : 'string'}
-    });
-    Domain.sync();
-    
-    app.findDomains = function() {
-      Domain.find(function(domains) {
-        console.log('here');
-      });
-    }
-});
-
-// require('./routes')(app, db);
+var client = app.pg = new pg.Client("tcp://powerdns:powerdns2k10^^@plop:5433/powerdns");
+client.connect();
 
 // Configuration
 app.configure(function(){
