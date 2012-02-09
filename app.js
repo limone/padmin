@@ -27,6 +27,12 @@ var db = orm.connect("postgresql://powerdns:powerdns2k10^^@plop:5433/powerdns", 
       'account' : {'type' : 'string'}
     });
     Domain.sync();
+    
+    app.findDomains = function() {
+      Domain.find(function(domains) {
+        console.log('here');
+      });
+    }
 });
 
 // require('./routes')(app, db);

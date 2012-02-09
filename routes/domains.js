@@ -1,7 +1,5 @@
 exports.domains = function(req, res) {
-  //db.domain.Domain.find(function(domains) {
-  //  console.log(domains.length);
-  //});
+  req.app.findDomains();
   
   var json = {
   'aaData': [ [
