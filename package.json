@@ -1,9 +1,12 @@
 {
-    "name": "padmin"
-  , "version": "0.1.0"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.5",
-      "ejs": ">= 0.0.1"
+  'name': 'padmin',
+  'version': '0.1.0',
+  'private': true,
+  'dependencies': {
+    'express': '2.5.5',
+    'ejs': '>= 0.0.1',
+    'pg': '0.6.10',
+    'orm': '0.1.8-4',
+    'socket.io': '0.8.7'
   }
 }

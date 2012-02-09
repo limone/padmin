@@ -2,10 +2,11 @@ var express = require('express'),
   routes = require('./routes'),
   io = require('socket.io'),
   orm = require('orm');
+  
+var index = require('./routes/index');
+var domains = require('./routes/domains');
 
 var app = module.exports = express.createServer();
-require('./routes')(app);
-
 var sio = io.listen(app);
 var db = orm.connect("postgresql://powerdns:powerdns2k10^^@plop:5433/powerdns", function (success, db) {
     if (!success) {
@@ -25,7 +26,10 @@ var db = orm.connect("postgresql://powerdns:powerdns2k10^^@plop:5433/powerdns", 
       'notified_serial' : {'type' : 'integer'},
       'account' : {'type' : 'string'}
     });
+    Domain.sync();
 });
+
+// require('./routes')(app, db);
 
 // Configuration
 app.configure(function(){
@@ -46,6 +50,9 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
+
+app.all('/', index.index);
+app.get('/domains.json', domains.domains);
 
 app.listen(3000);
 
