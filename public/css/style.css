@@ -6,7 +6,6 @@ a {
   color: #00B7FF;
 }
 
-.chromeFrameInstallDefaultStyle {
-  width: 100%; /* default is 800px */
-  border: 5px solid blue;
+#domains {
+    width: 100%;
 }

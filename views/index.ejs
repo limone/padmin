@@ -3,10 +3,9 @@
   <table id="domains">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Records</th>
-            <th>Owner</th>
+            <th style="width:150px">Name</th>
+            <th style="width:150px">Type</th>
+            <th style="width:150px">Records</th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +22,12 @@
         'bScrollInfinite ' : true,
         'bFilter' : false,
         'bInfo' : false,
-        'bPaginate' : false
+        'bPaginate' : false,
+        "aoColumns": [
+                    { "mDataProp": "name" },
+                    { "mDataProp": "type" },
+                    { "mDataProp": "count_records" }
+          ]
       });
     });
   </script>
