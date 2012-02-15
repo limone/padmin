@@ -1,12 +1,14 @@
 {
-  'name': 'padmin',
-  'version': '0.1.0',
-  'private': true,
-  'dependencies': {
-    'express': '2.5.5',
-    'ejs': '>= 0.0.1',
-    'pg': '0.6.10',
-    'orm': '0.1.8-4',
-    'socket.io': '0.8.7'
+  "name": "padmin",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "express": "latest",
+    "express-form": "latest",
+    "ejs": "latest",
+    "pg": "latest",
+    "socket.io": "0.8.7",
+    "underscore": "latest",
+    "log4js": "latest"
   }
 }

@@ -1,47 +1,72 @@
-var express = require('express'),
-  routes = require('./routes'),
-  io = require('socket.io'),
-  pg = require('pg');
-  
-var index = require('./routes/index');
-var domains = require('./routes/domains');
+var express = require('express');
+var pg = require('pg');
+var PgClient = require('./util/PgClient.js');
+var auth = require('./util/auth.js');
 
-var app = module.exports = express.createServer();
-var sio = io.listen(app);
+var log = require('log4js').getLogger();
 
-var client = app.pg = new pg.Client("tcp://powerdns:powerdns2k10^^@plop:5433/powerdns");
-client.connect();
+var path = require('path');
+if (path.existsSync('./configLocal.js')) {
+  var configLocal = require('./configLocal.js');
+  conf = configLocal.getSiteConfig();
+} else {
+  console.log('No local configuration found, using defaults.');
+  var configDefault = require('./config.js');
+  conf = configDefault.getSiteConfig();
+}
+
+var app = module.exports = express.createServer(
+  express.bodyParser(),
+  express.cookieParser(),
+  express.session({
+    secret:conf.secret,
+    maxAge:new Date(Date.now() + 3600000),
+    db:new PgClient(conf.db)
+  })
+);
 
 // Configuration
-app.configure(function(){
+app.configure(function () {
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: 'fmfm is a really cool thing' }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+app.dynamicHelpers({
+  messages:function (req) {
+    var msgs = req.session.messages;
+    req.session.messages = null;
+    return msgs
+  },
+  user:function (req) {
+    if (req.session)
+      return req.session.user;
+  }
 });
 
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
+app.configure('development', function () {
+  app.use(express.errorHandler({ dumpExceptions:true, showStack:true }));
 });
 
-app.all('/', index.index);
-app.get('/domains.json', domains.domains);
-
-app.listen(3000);
-
-sio.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+app.configure('production', function () {
+  app.use(express.errorHandler());
 });
 
-console.log("Express server listening on port %d in %s mode.", app.address().port, app.settings.env);
+/**
+ * We will inject the environment type to each request, so that we can inject debugging JS files when needed.
+ */
+app.all('/*.html', auth.restrict, function (req, res, next) {
+  var envType = req.app.settings.env;
+  res.local('envType', envType);
+  // console.log('Setting env type to ' + envType);
+  next();
+});
+require('./routes.js')(app);
+
+if (!module.parent) {
+  app.listen(3000);
+  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+}

@@ -1,0 +1,35 @@
+<h1>sign in</h1>
+<div id="loginArea">
+  <% if (messages && messages.length > 0) { %>
+  <div>errors</div>
+  <% } %>
+
+  <form id="loginForm" onsubmit="return false">
+    <p>
+      <label>Username</label><input type="text" id="username"/>
+    </p>
+
+    <p>
+      <label>Password</label><input type="password" id="password"/>
+    </p>
+    <input id="loginButton" class="button" type="submit" value="Sign In"/>
+  </form>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      /*$("#loginButton").on('click', function (event) {
+        var formContent = $('form').serialize();
+        $.post('/login.html', formContent);
+      });*/
+      var SampleView = Backbone.View.extend({
+        events : {
+          "submit #loginForm" : "formSubmit"
+        },
+        formSubmit : function(event) {
+          alert('submit');
+        }
+      });
+      var view = new SampleView({el: $('#loginArea')});
+    });
+  </script>
+</div>
