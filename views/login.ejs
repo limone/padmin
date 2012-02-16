@@ -4,32 +4,42 @@
   <div>errors</div>
   <% } %>
 
-  <form id="loginForm" onsubmit="return false">
+  <form id="loginForm" action="/login.html" method="POST">
     <p>
-      <label>Username</label><input type="text" id="username"/>
+      <label>Username</label><input type="text" id="username" name="username"/>
     </p>
 
     <p>
-      <label>Password</label><input type="password" id="password"/>
+      <label>Password</label><input type="password" id="password" name="password"/>
     </p>
     <input id="loginButton" class="button" type="submit" value="Sign In"/>
   </form>
 
   <script type="text/javascript">
+    $.ajaxSetup({
+      global: false,
+      type: "POST"
+    });
+
     $(document).ready(function () {
-      /*$("#loginButton").on('click', function (event) {
-        var formContent = $('form').serialize();
-        $.post('/login.html', formContent);
-      });*/
-      var SampleView = Backbone.View.extend({
+      var FormView = Backbone.View.extend({
         events : {
           "submit #loginForm" : "formSubmit"
         },
         formSubmit : function(event) {
-          alert('submit');
+          var formData = $('#loginForm').serialize();
+          $.ajax({
+            url: '/login.html?' + formData,
+            success: function( data ) {
+              if (data.staus === 'failed') {
+                // TODO - insert form validation
+                return;
+              }
+              window.location.replace("/");
+            }});
         }
       });
-      var view = new SampleView({el: $('#loginArea')});
+      var view = new FormView({el: $('#loginArea')});
     });
   </script>
 </div>

@@ -1,4 +1,8 @@
 function restrict(req, res, next) {
+  // turning off auth
+  next();
+  return;
+
   // console.log('Checking if there is a user.');
   if (req.session.user) {
     next();

@@ -1,11 +1,5 @@
 var pg = require('pg');
 
-var defaults = {
-  host: '127.0.0.1',
-  port: 5433,
-  db: 'postgres'
-};
-
 module.exports = PgClient = function(options, callback) {
   var self = this;
   this._client = new pg.Client(options);
@@ -17,4 +11,8 @@ module.exports = PgClient = function(options, callback) {
     console.log('Connected to PG');
     self._client = client;
   });
+}
+
+PgClient.prototype.getClient = function() {
+  return this._client;
 }

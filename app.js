@@ -21,7 +21,6 @@ var app = module.exports = express.createServer(
   express.session({
     secret:conf.secret,
     maxAge:new Date(Date.now() + 3600000),
-    db:new PgClient(conf.db)
   })
 );
 
@@ -34,6 +33,8 @@ app.configure(function () {
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
+
+global.db = new PgClient(conf.db);
 
 app.dynamicHelpers({
   messages:function (req) {
