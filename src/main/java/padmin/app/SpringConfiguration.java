@@ -3,6 +3,7 @@ package padmin.app;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,12 +16,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Configuration
 @EnableTransactionManagement
+@ComponentScan(basePackages="padmin")
 public class SpringConfiguration {
-  @Bean
-  public WicketApplication wicketApplication() {
-    return new WicketApplication();
-  }
-
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws Exception {
     final LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
@@ -45,7 +42,7 @@ public class SpringConfiguration {
     } catch (Exception ex) {
       throw new RuntimeException("Could not set JDBC driver class.", ex);
     }
-    dataSource.setJdbcUrl("jdbc:postgresql://plop:5433/powerdns");
+    dataSource.setJdbcUrl("jdbc:postgresql://192.168.1.8:5433/powerdns");
     dataSource.setUser("powerdns");
     dataSource.setPassword("powerdns2k10^^");
     return dataSource;
@@ -56,10 +53,5 @@ public class SpringConfiguration {
     JpaTransactionManager transactionManager = new JpaTransactionManager();
     transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
     return transactionManager;
-  }
-
-  @Bean
-  public WicketFilter wicketFilter() {
-    return new WicketFilter();
   }
 }

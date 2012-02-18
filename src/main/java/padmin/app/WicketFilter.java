@@ -1,28 +1,11 @@
 package padmin.app;
 
-import org.apache.wicket.protocol.http.IWebApplicationFactory;
-import org.apache.wicket.protocol.http.WebApplication;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
+
 import org.wicketstuff.servlet3.WicketFilter3;
 
+@WebFilter(value = "/*", initParams = { @WebInitParam(name = "applicationFactoryClassName", value = "org.apache.wicket.spring.SpringWebApplicationFactory") })
 public final class WicketFilter extends WicketFilter3 {
-  @Autowired
-  protected WicketApplication app;
-
-  @Override
-  protected IWebApplicationFactory getApplicationFactory() {
-    return new IWebApplicationFactory() {
-      @Override
-      public WebApplication createApplication(org.apache.wicket.protocol.http.WicketFilter filter) {
-        app.setWicketFilter(filter);
-        return app;
-      }
-
-      @Override
-      public void destroy(org.apache.wicket.protocol.http.WicketFilter filter) {
-        filter.destroy();
-      }
-    };
-  }
-
+  // empty
 }

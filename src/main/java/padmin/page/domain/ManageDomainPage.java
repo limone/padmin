@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import padmin.BasePage;
-import padmin.data.DomainService;
+import padmin.data.IDomainService;
 import padmin.model.Domain;
 import padmin.model.Record;
 
@@ -36,7 +36,7 @@ public class ManageDomainPage extends BasePage {
   protected static final List<String> types = Arrays.asList(new String[] { "A", "AAAA", "CNAME", "HINFO", "MX", "NAPTR", "NS", "PTR", "SOA", "SPF", "SRV", "SSHFP", "TXT", "RP" });
 
   @SpringBean
-  protected DomainService             ds;
+  protected IDomainService             ds;
 
   public ManageDomainPage() {
     init(null);

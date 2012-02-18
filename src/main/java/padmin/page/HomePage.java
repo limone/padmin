@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import padmin.BasePage;
-import padmin.data.DomainService;
+import padmin.data.IDomainService;
 import padmin.model.Domain;
 import padmin.page.domain.ManageDomainPage;
 
@@ -30,8 +30,8 @@ import padmin.page.domain.ManageDomainPage;
 public class HomePage extends BasePage {
   protected static final Logger log = LoggerFactory.getLogger(HomePage.class);
   
-  @SpringBean(name="domainService")
-  private DomainService ds;
+  @SpringBean
+  private IDomainService ds;
   
   public HomePage() {
     List<Domain> domains = ds.getDomains();

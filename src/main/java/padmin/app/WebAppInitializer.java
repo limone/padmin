@@ -1,9 +1,5 @@
 package padmin.app;
 
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration.Dynamic;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
@@ -35,11 +31,9 @@ public class WebAppInitializer implements WebApplicationInitializer {
     // Filters
     sc.addFilter("OpenEntityInViewFilter", OpenEntityManagerInViewFilter.class).addMappingForUrlPatterns(null, true, "/*");
     
-    final WicketFilter wicketFilter = ctx.getBean(WicketFilter.class);
-    wicketFilter.setFilterPath("");
-    final Dynamic wicketFilterConfig = sc.addFilter("WicketFilter", wicketFilter);
+    /*final Dynamic wicketFilterConfig = sc.addFilter("WicketFilter", WicketFilter.class);
     wicketFilterConfig.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-    wicketFilterConfig.setAsyncSupported(true);
+    wicketFilterConfig.setAsyncSupported(true);*/
 
     log.debug("padmin initialized.");
   }
