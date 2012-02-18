@@ -8,16 +8,16 @@
   <logger name="padmin" additivity="false" level="DEBUG">
     <appender-ref ref="stdout" />
   </logger>
-  <logger name="org.apache.wicket" additivity="false" level="DEBUG">
+  <logger name="org.apache.wicket" additivity="false" level="WARN">
     <appender-ref ref="stdout" />
   </logger>
-  <logger name="org.springframework" additivity="false" level="DEBUG">
+  <logger name="org.springframework" additivity="false" level="WARN">
     <appender-ref ref="stdout" />
   </logger>
-  <logger name="org.hibernate" additivity="false" level="DEBUG">
+  <logger name="org.hibernate" additivity="false" level="WARN">
     <appender-ref ref="stdout" />
   </logger>
-  <root level="DEBUG">
+  <root level="WARN">
     <appender-ref ref="stdout" />
   </root>
 </configuration>
