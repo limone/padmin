@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" lang="en">
+<head>
+  <title>Page</title>
+</head>
+
+<body>
+  <wicket:extend>
+    <h1>Current Domains</h1>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:200px">Domain Name</th>
+          <th style="width:125px">Number of Records</th>
+          <th style="width:100px">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr wicket:id="domains">
+          <td><span wicket:id="domainName" /></td>
+          <td class="right"><span wicket:id="recordCount" /></td>
+          <td class="right"><a class="deleteLink" wicket:id="deleteLink">delete</a>&nbsp;<a wicket:id="editLink">edit</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div id="deleteDialog" style="display:none">
+      <div>Are you sure you want to delete <span id="domainToDelete" />?</div>
+    </div>
+  </wicket:extend>
+</body>
+</html>

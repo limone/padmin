@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" lang="en">
+<head>
+<title>Page</title>
+</head>
+
+<body>
+  <wicket:extend>
+    <h1 wicket:id="title"></h1>
+    <div>
+      <form wicket:id="manageDomainForm">
+        <div style="float:right">
+          <input type="submit" value="Add Row" wicket:id="addRow" />
+        </div>
+        <div>
+          <label>Domain Name</label> <span wicket:id="name"></span>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+
+        <div class="row header">
+          <div class="column grid_2">Name</div>
+          <div class="column grid_2">Type</div>
+          <div class="column grid_5">Content</div>
+          <div class="column grid_1">Priority</div>
+          <div class="column grid_1">TTL</div>
+        </div>
+
+        <div wicket:id="recordContainer">
+          <div class="row" wicket:id="records">
+            <div class="column grid_2" wicket:id="recordName"></div>
+            <div class="column grid_2" wicket:id="recordType"></div>
+            <div class="column grid_5" wicket:id="recordContent"></div>
+            <div class="column grid_1" wicket:id="recordPriority"></div>
+            <div class="column grid_1" wicket:id="recordTtl"></div>
+          </div>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+        
+        <div style="float:right"><input type="submit" value="Save Changes" wicket:id="saveChanges" /></div>
+        
+        <div class="clear">&nbsp;</div>
+      </form>
+    </div>
+  </wicket:extend>
+</body>
+</html>

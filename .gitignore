@@ -1,0 +1,7 @@
+target
+.settings
+.scala_dependencies
+.project
+.classpath
+rebel.xml
+/src/main/resources/default.props
