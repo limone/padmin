@@ -10,10 +10,13 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.util.string.UrlUtils;
 
+import padmin.page.config.ConfigPage;
+
 public class BasePage extends WebPage {
   public BasePage() {
     add(new WebComponent("ie9js").add(new AttributeModifier("src", new Model<String>(UrlUtils.rewriteToContextRelative("js/ie9.js", RequestCycle.get())))));
     add(new BookmarkablePageLink<Object>("homeLink", Application.get().getHomePage()));
+    add(new BookmarkablePageLink<Object>("configLink", ConfigPage.class));
   }
 
   @Override

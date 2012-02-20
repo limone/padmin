@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import padmin.BasePage;
-import padmin.data.IDomainService;
 import padmin.model.Domain;
 import padmin.model.Record;
+import padmin.service.IDomainService;
 
 @MountPath("/domain/manage")
 public class ManageDomainPage extends BasePage {

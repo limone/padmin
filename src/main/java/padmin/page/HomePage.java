@@ -22,9 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import padmin.BasePage;
-import padmin.data.IDomainService;
 import padmin.model.Domain;
 import padmin.page.domain.ManageDomainPage;
+import padmin.service.IDomainService;
 
 @MountPath("/home.html")
 public class HomePage extends BasePage {

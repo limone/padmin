@@ -1,4 +1,4 @@
-package padmin.data;
+package padmin.service;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import padmin.data.IGenericDao;
 import padmin.model.Domain;
 
 @Service
