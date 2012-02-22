@@ -40,4 +40,11 @@ public class DomainService implements IDomainService {
     log.debug("Saving {}.", domain.toString());
     gd.merge(domain);
   }
+
+  @Override
+  public void deleteDomain(Domain domain) {
+    log.debug("Removing {}.", domain.toString());
+    Domain tmpDomain = getDomain(domain.getId());
+    gd.remove(tmpDomain);
+  }
 }

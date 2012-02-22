@@ -266,3 +266,8 @@ a.header {
 .header div {
   font-weight: bold;
 }
+
+.line {
+  height: 35px;
+  line-height: 35px;
+}

@@ -7,6 +7,8 @@
 <body>
   <wicket:extend>
     <h1>Current Domains</h1>
+    
+    <div wicket:id="domainsContainer">
     <table>
       <thead>
         <tr>
@@ -23,6 +25,13 @@
         </tr>
       </tbody>
     </table>
+    </div>
+    
+    <div class="fr">
+      <a class="submit" wicket:id="addDomainLink">Add Domain</a>
+    </div>
+    
+    <div class="clear">&nbsp;</div>
     
     <div id="deleteDialog" style="display:none">
       <div>Are you sure you want to delete <span id="domainToDelete" />?</div>

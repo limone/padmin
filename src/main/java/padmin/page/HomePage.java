@@ -8,11 +8,14 @@ import org.apache.wicket.ajax.IAjaxCallDecorator;
 import org.apache.wicket.ajax.calldecorator.AjaxCallDecorator;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableLabel;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.IValidatable;
@@ -31,13 +34,17 @@ public class HomePage extends BasePage {
   protected static final Logger log = LoggerFactory.getLogger(HomePage.class);
   
   @SpringBean
-  private IDomainService ds;
+  IDomainService ds;
   
   public HomePage() {
-    List<Domain> domains = ds.getDomains();
+    final ListDomainsModel domains = new ListDomainsModel(ds.getDomains());
+    
     log.debug("There are {} domains in pDNS.", domains.size());
     
-    add(new ListView<Domain>("domains", domains) {
+    final WebMarkupContainer domainsContainer = new WebMarkupContainer("domainsContainer");
+    add(domainsContainer.setOutputMarkupId(true).setOutputMarkupPlaceholderTag(true));
+    
+    domainsContainer.add(new ListView<Domain>("domains", domains) {
       @Override
       protected void populateItem(ListItem<Domain> item) {
         final Domain domain = item.getModelObject();
@@ -56,6 +63,9 @@ public class HomePage extends BasePage {
           @Override
           public void onClick(AjaxRequestTarget target) {
             log.debug("User wants to delete {}.", domain.getName());
+            ds.deleteDomain(domain);
+            domains.refreshDomains();
+            target.add(domainsContainer);
           }
 
           @Override
@@ -63,7 +73,7 @@ public class HomePage extends BasePage {
             return new AjaxCallDecorator() {
               @Override
               public CharSequence decorateScript(Component c, CharSequence script) {
-                return "padmin.deleteLink('" + domain.getName() + "', function() { " + script + " });";
+                return "padmin.deleteLink('" + domain.getName() + "', function() {" + script + "});";
               }
             };
           }
@@ -78,5 +88,21 @@ public class HomePage extends BasePage {
         });
       }
     });
+    
+    add(new BookmarkablePageLink<Object>("addDomainLink", ManageDomainPage.class));
+  }
+  
+  private final class ListDomainsModel extends ListModel<Domain> {
+    public ListDomainsModel(List<Domain> domains) {
+      super(domains);
+    }
+    
+    public int size() {
+      return getObject().size();
+    }
+    
+    public void refreshDomains() {
+      this.setObject(ds.getDomains());
+    }
   }
 }

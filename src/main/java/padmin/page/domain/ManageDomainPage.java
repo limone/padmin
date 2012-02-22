@@ -64,7 +64,14 @@ public class ManageDomainPage extends BasePage {
   }
 
   private final void init(Long domainId) {
-    final Domain d = ds.getDomain(domainId);
+    Domain tmpDomain;
+    if (domainId == null) {
+      tmpDomain = new Domain();
+      tmpDomain.setType("MASTER");
+    } else {
+      tmpDomain = ds.getDomain(domainId);
+    }
+    final Domain d = tmpDomain;
 
     setDefaultModel(new CompoundPropertyModel<Domain>(d));
 

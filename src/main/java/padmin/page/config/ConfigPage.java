@@ -29,7 +29,7 @@ public class ConfigPage extends BasePage {
   protected static final Logger log = LoggerFactory.getLogger(ConfigPage.class);
   
   @SpringBean
-  private IConfigService cs;
+  protected IConfigService cs;
 
   public ConfigPage() {
     final ConfigModel model = new ConfigModel();
@@ -62,7 +62,12 @@ public class ConfigPage extends BasePage {
       @Override
       protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
         log.debug("Saving configuration options.");
-        log.debug(model.toString());
+        for (Config config : model.getConfigureItems()) {
+          if (config.getKey().equalsIgnoreCase("is.configured")) {
+            config.setValue("true");
+          }
+          cs.saveConfig(config);
+        }
       }
       
       @Override
