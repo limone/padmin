@@ -2,4 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <entry key="page.title">padmin :: config page</entry>
+  <entry key="default.soa">Default SOA</entry>
+  <entry key="default.ns.1">Default Nameserver (1)</entry>
+  <entry key="default.ns.2">Default Nameserver (2)</entry>
 </properties>

@@ -8,7 +8,18 @@
   <wicket:extend>
     <h1>configure padmin</h1>
     <div>
-      
+      <form wicket:id="configureForm">
+        <div wicket:id="configureContainer">
+          <div class="row" wicket:id="configureItems">
+            <div class="column grid_2" wicket:id="configName"></div>
+            <div class="column grid_6" wicket:id="configValue"></div>
+          </div>
+        </div>
+        <div class="fr">
+          <input type="submit" value="Save Configuration" wicket:id="submitButton" />
+        </div>
+        <div class="clear">&nbsp;</div>
+      </form>
     </div>
   </wicket:extend>
 </body>
