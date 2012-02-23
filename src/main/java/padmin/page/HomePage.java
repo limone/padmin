@@ -48,7 +48,7 @@ public class HomePage extends BasePage {
       @Override
       protected void populateItem(ListItem<Domain> item) {
         final Domain domain = item.getModelObject();
-        final AjaxEditableLabel<String> nameLabel = new AjaxEditableLabel<String>("domainName", new Model<String>(domain.getName()));
+        final AjaxEditableLabel<String> nameLabel = new AjaxEditableLabel<>("domainName", new Model<>(domain.getName()));
         nameLabel.add(new IValidator<String>() {
           @Override
           public void validate(IValidatable<String> validatable) {
@@ -89,7 +89,7 @@ public class HomePage extends BasePage {
       }
     });
     
-    add(new BookmarkablePageLink<Object>("addDomainLink", ManageDomainPage.class));
+    add(new BookmarkablePageLink<>("addDomainLink", ManageDomainPage.class));
   }
   
   private final class ListDomainsModel extends ListModel<Domain> {

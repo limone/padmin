@@ -17,7 +17,7 @@
   <logger name="org.hibernate" additivity="false" level="WARN">
     <appender-ref ref="stdout" />
   </logger>
-  <logger name="org.hibernate.SQL" additivity="false" level="DEBUG">
+  <logger name="org.hibernate.SQL" additivity="false" level="WARN">
     <appender-ref ref="stdout" />
   </logger>
   <root level="WARN">

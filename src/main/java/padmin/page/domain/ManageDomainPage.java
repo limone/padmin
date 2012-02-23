@@ -77,16 +77,16 @@ public class ManageDomainPage extends BasePage {
     }
 
     final Domain d = tmpDomain;
-    setDefaultModel(new CompoundPropertyModel<Domain>(d));
+    setDefaultModel(new CompoundPropertyModel<>(d));
 
-    final Label domainName = new Label("title", new Model<String>(domainId == null ? "Create Domain" : "Edit " + d.getName()));
+    final Label domainName = new Label("title", new Model<>(domainId == null ? "Create Domain" : "Edit " + d.getName()));
     add(domainName.setOutputMarkupId(true));
 
-    final Form<Domain> manageForm = new Form<Domain>("manageDomainForm");
+    final Form<Domain> manageForm = new Form<>("manageDomainForm");
     manageForm.add(new AjaxEditableLabel<String>("name"));
 
-    final List<Long> selected = new ArrayList<Long>();
-    final CheckGroup<Long> selectedRecords = new CheckGroup<Long>("checkGroup", selected);
+    final List<Long> selected = new ArrayList<>();
+    final CheckGroup<Long> selectedRecords = new CheckGroup<>("checkGroup", selected);
     manageForm.add(selectedRecords);
 
     final WebMarkupContainer recordContainer = new WebMarkupContainer("recordContainer");
@@ -96,9 +96,9 @@ public class ManageDomainPage extends BasePage {
       @Override
       protected void populateItem(ListItem<Record> item) {
         final Record r = item.getModelObject();
-        item.add(new Check<Long>("checkbox", new PropertyModel<Long>(r, "id"), selectedRecords));
-        item.add(new HiddenField<Long>("recordId", new PropertyModel<Long>(r, "id")));
-        item.add(new AjaxEditableLabel<String>("recordName", new PropertyModel<String>(r, "name")));
+        item.add(new Check<>("checkbox", new PropertyModel<Long>(r, "id"), selectedRecords));
+        item.add(new HiddenField<>("recordId", new PropertyModel<Long>(r, "id")));
+        item.add(new AjaxEditableLabel<>("recordName", new PropertyModel<String>(r, "name")));
         item.add(new AjaxEditableChoiceLabel<String>("recordType", new PropertyModel<String>(r, "type"), types) {
           @Override
           public void onEdit(AjaxRequestTarget target) {
@@ -162,7 +162,7 @@ public class ManageDomainPage extends BasePage {
         }
 
         log.debug("Refreshing domain model.");
-        ManageDomainPage.this.setDefaultModel(new CompoundPropertyModel<Domain>(ds.getDomain(d.getId())));
+        ManageDomainPage.this.setDefaultModel(new CompoundPropertyModel<>(ds.getDomain(d.getId())));
         target.add(domainName);
         target.add(manageForm);
       }
@@ -173,13 +173,13 @@ public class ManageDomainPage extends BasePage {
       }
     });
 
-    manageForm.add(new AjaxButton("saveChanges", new Model<String>("Save Changes"), manageForm) {
+    manageForm.add(new AjaxButton("saveChanges", new Model<>("Save Changes"), manageForm) {
       @Override
       protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
         log.debug("Saving changes.");
         final Domain newDomain = ds.saveDomain(d);
         log.debug("Refreshing domain model.");
-        ManageDomainPage.this.setDefaultModel(new CompoundPropertyModel<Domain>(newDomain));
+        ManageDomainPage.this.setDefaultModel(new CompoundPropertyModel<>(newDomain));
         target.add(domainName);
         target.add(manageForm);
       }
@@ -195,7 +195,7 @@ public class ManageDomainPage extends BasePage {
 
   static final class GridAttributeModifier extends AttributeModifier {
     public GridAttributeModifier(String cssClass) {
-      super("class", new Model<String>(cssClass));
+      super("class", new Model<>(cssClass));
     }
   }
 }

@@ -24,7 +24,7 @@ public class ConfigService implements IConfigService {
 
   @Override
   public Config getConfig(String key) {
-    Map<String,Object> params = new HashMap<String,Object>();
+    Map<String,Object> params = new HashMap<>();
     params.put("key", key);
     return gd.namedQuerySingle("Config.GetByKey", params);
   }

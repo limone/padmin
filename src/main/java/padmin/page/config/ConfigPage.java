@@ -33,11 +33,11 @@ public class ConfigPage extends BasePage {
 
   public ConfigPage() {
     final ConfigModel model = new ConfigModel();
-    setDefaultModel(new CompoundPropertyModel<ConfigModel>(model));
+    setDefaultModel(new CompoundPropertyModel<>(model));
 
     model.setConfigureItems(cs.getAllConfigs());
 
-    final Form<ConfigModel> configureForm = new Form<ConfigModel>("configureForm");
+    final Form<ConfigModel> configureForm = new Form<>("configureForm");
 
     final WebMarkupContainer configureContainer = new WebMarkupContainer("configureContainer");
     configureForm.add(configureContainer.setOutputMarkupId(true).setOutputMarkupPlaceholderTag(true));
@@ -54,7 +54,7 @@ public class ConfigPage extends BasePage {
         final Config config = item.getModelObject();
 
         item.add(new Label("configName", new ResourceModel(config.getKey())));
-        item.add(new AjaxEditableLabel<String>("configValue", new PropertyModel<String>(config, "value")));
+        item.add(new AjaxEditableLabel<>("configValue", new PropertyModel<String>(config, "value")));
       }
     });
     

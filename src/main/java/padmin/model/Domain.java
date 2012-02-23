@@ -42,7 +42,7 @@ public class Domain implements Serializable {
   
   @OneToMany(mappedBy="domain", cascade=javax.persistence.CascadeType.ALL)
   @Cascade(CascadeType.ALL)
-  private List<Record> records = new ArrayList<Record>();
+  private List<Record> records = new ArrayList<>();
   
   public Domain() {
     // empty

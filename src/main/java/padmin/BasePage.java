@@ -18,9 +18,9 @@ import padmin.page.config.ConfigPage;
 
 public class BasePage extends WebPage {
   public BasePage() {
-    add(new WebComponent("ie9js").add(new AttributeModifier("src", new Model<String>(UrlUtils.rewriteToContextRelative("js/ie9.js", RequestCycle.get())))));
-    add(new BookmarkablePageLink<Object>("homeLink", Application.get().getHomePage()));
-    add(new BookmarkablePageLink<Object>("configLink", ConfigPage.class));
+    add(new WebComponent("ie9js").add(new AttributeModifier("src", new Model<>(UrlUtils.rewriteToContextRelative("js/ie9.js", RequestCycle.get())))));
+    add(new BookmarkablePageLink<>("homeLink", Application.get().getHomePage()));
+    add(new BookmarkablePageLink<>("configLink", ConfigPage.class));
     
     if (WicketApplication.get().isPadminConfigured() || getPage() instanceof ConfigPage) {
       add(new WebMarkupContainer("configured").setVisible(false));

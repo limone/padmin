@@ -26,7 +26,7 @@ public abstract class FilteredListModel<K> extends LoadableDetachableModel<List<
   @Override
   protected final List<K> load() {
     List<? extends K> input = inner.getObject();
-    List<K> result = new ArrayList<K>(input.size());
+    List<K> result = new ArrayList<>(input.size());
     for (K k : input) {
       if (accept(k)) result.add(k);
     }
