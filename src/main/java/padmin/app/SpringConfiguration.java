@@ -10,7 +10,6 @@ import org.springframework.beans.factory.config.PropertyOverrideConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -24,32 +23,32 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages="padmin")
+@ComponentScan(basePackages = "padmin")
 public class SpringConfiguration {
   private static final Logger log = LoggerFactory.getLogger(SpringConfiguration.class);
-  
+
   @Bean
   public static PropertyOverrideConfigurer propertyOverride() {
     final PropertyOverrideConfigurer properties = new PropertyOverrideConfigurer();
-    
-    Resource location = new ClassPathResource("/padmin.default.properties");
+
     final String config = System.getProperty("config");
     if (config == null || config.isEmpty()) {
-      log.debug("No 'config' system property detected - loading default configuration file from classpath.");
-    } else {
-      final File configFile = new File(config, "padmin.properties");
-      if (!configFile.exists() || !configFile.canRead()) {
-        log.warn("Attempted to load the padmin configuration file from {}/padmin.properties, but either it does not exist or is not readable.", config);
-      } else {
-        location = new FileSystemResource(configFile);
-      }
+      log.error("No 'config' system property detected - padmin cannot start up.");
+      throw new RuntimeException("No 'config' system property detected - padmin cannot start up.");
     }
-    
+
+    final File configFile = new File(config, "padmin.properties");
+    if (!configFile.exists() || !configFile.canRead()) {
+      log.error("Attempted to load the padmin configuration file from {}/padmin.properties, but either it does not exist or is not readable.", config);
+      throw new RuntimeException(String.format("Attempted to load the padmin configuration file from %s/padmin.properties, but either it does not exist or is not readable.", config));
+    }
+
+    Resource location = new FileSystemResource(configFile);
     properties.setLocation(location);
+
     return properties;
   }
-  
-  
+
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws Exception {
     final LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
@@ -74,7 +73,13 @@ public class SpringConfiguration {
     } catch (Exception ex) {
       throw new RuntimeException("Could not set JDBC driver class.", ex);
     }
-    
+
+    dataSource.setCheckoutTimeout(2000);
+    dataSource.setMaxIdleTimeExcessConnections(300);
+    dataSource.setPreferredTestQuery("SELECT 1");
+    dataSource.setIdleConnectionTestPeriod(30);
+    dataSource.setTestConnectionOnCheckin(true);
+
     return dataSource;
   }
 

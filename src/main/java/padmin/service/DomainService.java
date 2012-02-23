@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import padmin.data.IGenericDao;
 import padmin.model.Domain;
+import padmin.model.Record;
 
 @Service
 @Transactional
@@ -36,9 +37,9 @@ public class DomainService implements IDomainService {
   }
   
   @Override
-  public void saveDomain(Domain domain) {
+  public Domain saveDomain(Domain domain) {
     log.debug("Saving {}.", domain.toString());
-    gd.merge(domain);
+    return gd.merge(domain);
   }
 
   @Override
@@ -46,5 +47,18 @@ public class DomainService implements IDomainService {
     log.debug("Removing {}.", domain.toString());
     Domain tmpDomain = getDomain(domain.getId());
     gd.remove(tmpDomain);
+  }
+
+  @Override
+  public Record getRecord(Long recordId) {
+    log.debug("Retrieving record for ID {}.", recordId);
+    return gd.find(Record.class, recordId);
+  }
+
+  @Override
+  public void deleteRecord(Record record) {
+    log.debug("Removing {}.", record.toString());
+    Record tmpRecord = getRecord(record.getId());
+    gd.remove(tmpRecord);
   }
 }

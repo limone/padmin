@@ -3,6 +3,10 @@ package padmin.app;
 import org.apache.wicket.Application;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.resource.AbstractResource.ResourceResponse;
+import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
+import org.apache.wicket.request.resource.caching.IStaticCacheableResource;
+import org.apache.wicket.request.resource.caching.ResourceUrl;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.time.Duration;
 import org.slf4j.Logger;
@@ -55,6 +59,23 @@ public class WicketApplication extends WebApplication {
 
       getResourceSettings().setResourcePollFrequency(Duration.ONE_SECOND);
     }
+    
+    getResourceSettings().setCachingStrategy(new IResourceCachingStrategy() {
+      @Override
+      public void undecorateUrl(ResourceUrl url) {
+        // empty
+      }
+      
+      @Override
+      public void decorateUrl(ResourceUrl url, IStaticCacheableResource resource) {
+        // empty
+      }
+      
+      @Override
+      public void decorateResponse(ResourceResponse response, IStaticCacheableResource resource) {
+        // response.disableCaching();
+      }
+    });
     
     Config isConfigured = cs.getConfig("is.configured");
     if (isConfigured == null) {

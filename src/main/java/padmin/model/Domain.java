@@ -1,6 +1,7 @@
 package padmin.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -41,7 +42,7 @@ public class Domain implements Serializable {
   
   @OneToMany(mappedBy="domain", cascade=javax.persistence.CascadeType.ALL)
   @Cascade(CascadeType.ALL)
-  private List<Record> records;
+  private List<Record> records = new ArrayList<Record>();
   
   public Domain() {
     // empty

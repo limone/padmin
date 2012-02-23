@@ -12,21 +12,16 @@ import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.util.string.UrlUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import padmin.app.WicketApplication;
 import padmin.page.config.ConfigPage;
 
 public class BasePage extends WebPage {
-  private static final Logger log = LoggerFactory.getLogger(BasePage.class);
-  
   public BasePage() {
     add(new WebComponent("ie9js").add(new AttributeModifier("src", new Model<String>(UrlUtils.rewriteToContextRelative("js/ie9.js", RequestCycle.get())))));
     add(new BookmarkablePageLink<Object>("homeLink", Application.get().getHomePage()));
     add(new BookmarkablePageLink<Object>("configLink", ConfigPage.class));
     
-    log.debug("Page: {}", getPage().getClass().toString());
     if (WicketApplication.get().isPadminConfigured() || getPage() instanceof ConfigPage) {
       add(new WebMarkupContainer("configured").setVisible(false));
     } else {

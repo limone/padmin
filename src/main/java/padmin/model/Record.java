@@ -21,9 +21,9 @@ public class Record implements Serializable {
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
   
-  @ManyToOne(cascade=javax.persistence.CascadeType.ALL)
+  @ManyToOne(cascade={javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.PERSIST})
   @JoinColumn(name="domain_id", nullable=false, updatable=false)
-  @Cascade(CascadeType.ALL)
+  @Cascade(CascadeType.SAVE_UPDATE)
   private Domain domain;
   
   @Column
