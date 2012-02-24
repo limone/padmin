@@ -77,13 +77,14 @@ public class ManageDomainPage extends BasePage {
     }
 
     final Domain d = tmpDomain;
-    setDefaultModel(new CompoundPropertyModel<>(d));
+    final CompoundPropertyModel<Domain> model = new CompoundPropertyModel<>(d);
+    setDefaultModel(model);
 
     final Label domainName = new Label("title", new Model<>(domainId == null ? "Create Domain" : "Edit " + d.getName()));
     add(domainName.setOutputMarkupId(true));
 
     final Form<Domain> manageForm = new Form<>("manageDomainForm");
-    manageForm.add(new AjaxEditableLabel<String>("name"));
+    manageForm.add(new AjaxEditableLabel<String>("name").setRequired(true));
 
     final List<Long> selected = new ArrayList<>();
     final CheckGroup<Long> selectedRecords = new CheckGroup<>("checkGroup", selected);
@@ -92,7 +93,7 @@ public class ManageDomainPage extends BasePage {
     final WebMarkupContainer recordContainer = new WebMarkupContainer("recordContainer");
     selectedRecords.add(recordContainer.setOutputMarkupId(true).setOutputMarkupPlaceholderTag(true));
 
-    recordContainer.add(new ListView<Record>("records", d.getRecords()) {
+    final ListView<Record> records = new ListView<Record>("records") {
       @Override
       protected void populateItem(ListItem<Record> item) {
         final Record r = item.getModelObject();
@@ -131,13 +132,24 @@ public class ManageDomainPage extends BasePage {
           }
         });
       }
-    });
+    };
+    recordContainer.add(records);
 
     manageForm.add(new AjaxLink<Object>("addRow") {
       @Override
       public void onClick(AjaxRequestTarget target) {
         log.debug("Adding a row.");
-        d.getRecords().add(new Record().setDomain(d));
+        final Domain domain = model.getObject();
+        
+        if (domain == null || domain.getId() == null) {
+          log.warn("Cannot add a row if the domain has not yet been saved.");
+          target.appendJavaScript("padmin.displayError('Please save the domain before trying to add a record.');");
+          return;
+        }
+        
+        domain.getRecords().add(new Record().setDomain(domain));
+        final Domain newDomain = ds.saveDomain(domain);
+        model.setObject(newDomain);
         target.add(recordContainer);
       }
     });
@@ -161,8 +173,11 @@ public class ManageDomainPage extends BasePage {
           selected.clear();
         }
 
-        log.debug("Refreshing domain model.");
-        ManageDomainPage.this.setDefaultModel(new CompoundPropertyModel<>(ds.getDomain(d.getId())));
+        final Domain newDomain = ds.getDomain(model.getObject().getId());
+        log.debug("Refreshing domain model: {}", newDomain.toString());
+        
+        model.setObject(newDomain);
+        domainName.setDefaultModel(new Model<>("Edit " + model.getObject().getName()));
         target.add(domainName);
         target.add(manageForm);
       }
@@ -176,10 +191,18 @@ public class ManageDomainPage extends BasePage {
     manageForm.add(new AjaxButton("saveChanges", new Model<>("Save Changes"), manageForm) {
       @Override
       protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+        final Domain domain = model.getObject();
+        if (domain == null || domain.getName() == null || domain.getName().isEmpty()) {
+          target.appendJavaScript("padmin.displayError('Please provide a name for this domain.');");
+          return;
+        }
+        
         log.debug("Saving changes.");
-        final Domain newDomain = ds.saveDomain(d);
-        log.debug("Refreshing domain model.");
-        ManageDomainPage.this.setDefaultModel(new CompoundPropertyModel<>(newDomain));
+        final Domain newDomain = ds.saveDomain(domain);
+        log.debug("Refreshing domain model: {}", newDomain.toString());
+        
+        model.setObject(newDomain);
+        domainName.setDefaultModel(new Model<>("Edit " + newDomain.getName()));
         target.add(domainName);
         target.add(manageForm);
       }
