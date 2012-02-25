@@ -1,5 +1,8 @@
 package padmin.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,9 @@ public class SecurityService implements ISecurityService {
   @Override
   public User getUserByEmail(String emailAddress) {
     log.debug("Searching for user with email address {}.", emailAddress);
-    return null;
+    Map<String,Object> params = new HashMap<>();
+    params.put("email", emailAddress);
+    return gd.querySingle("SELECT u FROM User u WHERE u.email=:email", params);
   }
 
   @Override
@@ -42,6 +47,9 @@ public class SecurityService implements ISecurityService {
 
   @Override
   public User getUserByUsername(String username) {
-    return null;
+    log.debug("Searching for user with username {}.", username);
+    Map<String,Object> params = new HashMap<>();
+    params.put("username", username);
+    return gd.querySingle("SELECT u FROM User u WHERE u.username=:username", params);
   }
 }

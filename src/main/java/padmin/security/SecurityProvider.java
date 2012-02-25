@@ -2,6 +2,8 @@ package padmin.security;
 
 import java.io.Serializable;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,47 +18,34 @@ public class SecurityProvider implements Serializable {
   
   @Autowired
   private ISecurityService secSvc;
-
-  private String username;
-  private String password;
-
-  public String getPassword() {
-    return password;
+  
+  public SecurityProvider() {
+    // empty
   }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public LoginStatusType login() {
+  public Pair<LoginStatusType,User> login(String username, String password) {
     try {
       // Perform Auth here
       User u = secSvc.getUserByUsername(username);
       if (u == null) {
-        return LoginStatusType.INVALID_USERNAME; 
+        return Pair.of(LoginStatusType.INVALID_USERNAME, null); 
       }
       
       // Validate password
-      if (!u.getPassword().equals(password)) {
-        return LoginStatusType.BAD_CREDENTIALS;
+      final String hashedPassword = DigestUtils.md5Hex(password);
+      log.debug("Validating incoming {} against existing {}.", hashedPassword, u.getPassword());
+      if (!hashedPassword.equals(u.getPassword())) {
+        return Pair.of(LoginStatusType.BAD_CREDENTIALS, null);
       }
       
       if (!u.getActive()) {
-        return LoginStatusType.DISABLED;
+        return Pair.of(LoginStatusType.DISABLED, null);
       }
       
-      return LoginStatusType.SUCCESS;
+      return Pair.of(LoginStatusType.SUCCESS, u);
     } catch (Exception ex) {
       log.error("Could not login user due to unexpected error.", ex);
-      return LoginStatusType.UNKNOWN_FAILURE;
+      return Pair.of(LoginStatusType.UNKNOWN_FAILURE, null);
     }
   }
 }
