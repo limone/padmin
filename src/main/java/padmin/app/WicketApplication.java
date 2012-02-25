@@ -2,7 +2,11 @@ package padmin.app;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.RuntimeConfigurationType;
+import org.apache.wicket.Session;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.Response;
 import org.apache.wicket.request.resource.AbstractResource.ResourceResponse;
 import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
 import org.apache.wicket.request.resource.caching.IStaticCacheableResource;
@@ -18,6 +22,8 @@ import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 import padmin.BasePage;
 import padmin.model.Config;
 import padmin.page.HomePage;
+import padmin.page.security.SignInPage;
+import padmin.security.PageAnnotationAuthorizationStrategy;
 import padmin.service.IConfigService;
 
 @Component
@@ -47,6 +53,8 @@ public class WicketApplication extends WebApplication {
 
     getMarkupSettings().setDefaultMarkupEncoding(DEFAULT_ENCODING);
     getRequestCycleSettings().setResponseRequestEncoding(DEFAULT_ENCODING);
+    
+    getSecuritySettings().setAuthorizationStrategy(new PageAnnotationAuthorizationStrategy(getLoginPage()));
 
     if (getConfigurationType().equals(RuntimeConfigurationType.DEVELOPMENT)) {
       getMarkupSettings().setStripWicketTags(true);
@@ -73,7 +81,7 @@ public class WicketApplication extends WebApplication {
       
       @Override
       public void decorateResponse(ResourceResponse response, IStaticCacheableResource resource) {
-        // response.disableCaching();
+        // empty
       }
     });
     
@@ -113,7 +121,16 @@ public class WicketApplication extends WebApplication {
   }
 
   @Override
+  public Session newSession(Request request, Response response) {
+    return new PadminSession(request);
+  }
+
+  @Override
   public Class<? extends BasePage> getHomePage() {
     return HomePage.class;
+  }
+  
+  public Class<? extends WebPage> getLoginPage() {
+    return SignInPage.class;
   }
 }

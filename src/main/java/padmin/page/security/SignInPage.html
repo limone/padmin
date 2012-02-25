@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" lang="en">
+<head>
+  <title>Page</title>
+</head>
+
+<body>
+  <wicket:extend>
+    <h1>Sign In</h1>
+    <div>
+      <form wicket:id="signInForm">
+        <div class="row">
+          <label>Username</label>
+          <input type="text" wicket:id="username" />
+        </div>
+        <div class="row">
+          <label>Password</label>
+          <input type="password" wicket:id="password" />
+        </div>
+        <div class="row">
+          <input type="submit" value="Sign In" wicket:id="signInButton" />
+        </div>
+      </form>
+    </div>
+  </wicket:extend>
+</body>
+</html>

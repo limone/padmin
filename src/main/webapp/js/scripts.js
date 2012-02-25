@@ -17,8 +17,14 @@ deleteLink : function(domainName, callback) {
   });
 },
 
-displayError : function(message) {
-  var elm = $('<div id="error" class="ui-state-error"></div>').html('<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>' + message + '</p>');
+displayError : function(messages) {
+  var errors = '';
+  for (var m in messages) {
+    var message = messages[m];
+    errors += '<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>' + message + '</p>';
+  }
+  
+  var elm = $('<div id="error" class="ui-state-error"></div>').html(errors);
   $('body').append(elm);
   $('#error').dialog({
     close : function(event, ui) {

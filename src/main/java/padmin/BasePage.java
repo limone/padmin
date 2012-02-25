@@ -15,7 +15,9 @@ import org.apache.wicket.util.string.UrlUtils;
 
 import padmin.app.WicketApplication;
 import padmin.page.config.ConfigPage;
+import padmin.security.RequiresAuthentication;
 
+@RequiresAuthentication
 public class BasePage extends WebPage {
   public BasePage() {
     add(new WebComponent("ie9js").add(new AttributeModifier("src", new Model<>(UrlUtils.rewriteToContextRelative("js/ie9.js", RequestCycle.get())))));
