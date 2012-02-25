@@ -42,26 +42,31 @@ public class SignInPage extends BasePage {
     signInForm.add(new AjaxButton("signInButton", signInForm) {
       @Override
       protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-        log.debug("Attempting to sign in user.");
-        Pair<LoginStatusType,User> loginResult = secProv.login(model.getUsername(), model.getPassword());
+        final String username = model.getUsername();
+        log.debug("Attempting to sign in user {}.", username);
+        Pair<LoginStatusType,User> loginResult = secProv.login(username, model.getPassword());
         switch (loginResult.getLeft()) {
           case BAD_CREDENTIALS:
-            log.debug("Password did not match.");
+            log.warn("Password for {} did not match.", username);
+            target.appendJavaScript("padmin.displayError(['Password for " + username + " did not match.']);");
             break;
           case DISABLED:
-            log.debug("Account is disabled.");
+            log.warn("Account for {} is disabled.", username);
+            target.appendJavaScript("padmin.displayError(['Account for " + username + " is currently disabled.']);");
             break;
           case INVALID_USERNAME:
-            log.debug("Unknown username.");
+            log.warn("Unknown username ({}).", username);
+            target.appendJavaScript("padmin.displayError(['" + username + " cannot be found in the system.']);");
             break;
           case SUCCESS:
-            log.debug("All okay - user {} logged in!", model.getUsername());
+            log.info("User {} signed in.", username);
             PadminSession.get().setUser(loginResult.getRight());
             setResponsePage(WicketApplication.get().getHomePage());
             break;
           case FAILED:
           case UNKNOWN_FAILURE:
-            log.debug("Unexpected error.");
+            log.error("Unexpected error while trying to sign in {}.", username);
+            target.appendJavaScript("padmin.displayError(['An unexpected error occured.  Please cry for a while.']);");
             break;
         }
       }
