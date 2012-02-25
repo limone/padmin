@@ -74,12 +74,6 @@ public class SpringConfiguration {
       throw new RuntimeException("Could not set JDBC driver class.", ex);
     }
 
-    dataSource.setCheckoutTimeout(2000);
-    dataSource.setMaxIdleTimeExcessConnections(300);
-    dataSource.setPreferredTestQuery("SELECT 1");
-    dataSource.setIdleConnectionTestPeriod(30);
-    dataSource.setTestConnectionOnCheckin(true);
-
     return dataSource;
   }
 
