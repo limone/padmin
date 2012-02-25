@@ -56,7 +56,7 @@ public class Domain implements Serializable {
   public String toString() {
     return "Domain [id=" + id + ", name=" + name + ", master=" + master + ", lastCheck=" + lastCheck + ", type=" + type + ", notifiedSerial=" + notifiedSerial + ", account=" + account + ", records=" + records + "]";
   }
-
+  
   public Long getId() {
     return id;
   }

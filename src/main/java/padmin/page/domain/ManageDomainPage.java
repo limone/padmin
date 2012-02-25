@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.wicket.Application;
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -31,7 +30,9 @@ import org.wicketstuff.annotation.mount.MountPath;
 import padmin.BasePage;
 import padmin.model.Domain;
 import padmin.model.Record;
+import padmin.service.IConfigService;
 import padmin.service.IDomainService;
+import padmin.wicket.GridAttributeModifier;
 
 @MountPath("/domain/manage")
 public class ManageDomainPage extends BasePage {
@@ -41,6 +42,9 @@ public class ManageDomainPage extends BasePage {
 
   @SpringBean
   protected IDomainService            ds;
+
+  @SpringBean
+  protected IConfigService            cs;
 
   public ManageDomainPage() {
     init(null);
@@ -72,6 +76,13 @@ public class ManageDomainPage extends BasePage {
     if (domainId == null) {
       tmpDomain = new Domain();
       tmpDomain.setType("MASTER");
+      final String soa = cs.getConfig("default.soa").getValue();
+      final String ns1 = cs.getConfig("default.ns.1").getValue();
+      final String ns2 = cs.getConfig("default.ns.2").getValue();
+      
+      tmpDomain.getRecords().add(new Record(tmpDomain, tmpDomain.getName(), "SOA", soa));
+      tmpDomain.getRecords().add(new Record(tmpDomain, tmpDomain.getName(), "NS", ns1));
+      tmpDomain.getRecords().add(new Record(tmpDomain, tmpDomain.getName(), "NS", ns2));
     } else {
       tmpDomain = ds.getDomain(domainId);
     }
@@ -140,13 +151,13 @@ public class ManageDomainPage extends BasePage {
       public void onClick(AjaxRequestTarget target) {
         log.debug("Adding a row.");
         final Domain domain = model.getObject();
-        
+
         if (domain == null || domain.getId() == null) {
           log.warn("Cannot add a row if the domain has not yet been saved.");
           target.appendJavaScript("padmin.displayError('Please save the domain before trying to add a record.');");
           return;
         }
-        
+
         domain.getRecords().add(new Record().setDomain(domain));
         final Domain newDomain = ds.saveDomain(domain);
         model.setObject(newDomain);
@@ -175,7 +186,7 @@ public class ManageDomainPage extends BasePage {
 
         final Domain newDomain = ds.getDomain(model.getObject().getId());
         log.debug("Refreshing domain model: {}", newDomain.toString());
-        
+
         model.setObject(newDomain);
         domainName.setDefaultModel(new Model<>("Edit " + model.getObject().getName()));
         target.add(domainName);
@@ -196,11 +207,11 @@ public class ManageDomainPage extends BasePage {
           target.appendJavaScript("padmin.displayError('Please provide a name for this domain.');");
           return;
         }
-        
+
         log.debug("Saving changes.");
         final Domain newDomain = ds.saveDomain(domain);
         log.debug("Refreshing domain model: {}", newDomain.toString());
-        
+
         model.setObject(newDomain);
         domainName.setDefaultModel(new Model<>("Edit " + newDomain.getName()));
         target.add(domainName);
@@ -214,11 +225,5 @@ public class ManageDomainPage extends BasePage {
     });
 
     add(manageForm.setOutputMarkupId(true));
-  }
-
-  static final class GridAttributeModifier extends AttributeModifier {
-    public GridAttributeModifier(String cssClass) {
-      super("class", new Model<>(cssClass));
-    }
   }
 }

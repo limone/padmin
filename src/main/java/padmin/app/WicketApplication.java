@@ -85,7 +85,7 @@ public class WicketApplication extends WebApplication {
     
     Config defaultSoa = cs.getConfig("default.soa");
     if (defaultSoa == null) {
-      defaultSoa = new Config("default.soa", "localhost. hostmaster.localhost. [SERIAL] 3600 3600 3600 3600");
+      defaultSoa = new Config("default.soa", "localhost. hostmaster.localhost. [SERIAL]");
       cs.saveConfig(defaultSoa);
     }
     

@@ -47,6 +47,17 @@ public class Record implements Serializable {
   public Record() {
     // empty
   }
+  
+  public Record(Domain domain) {
+    this.domain = domain;
+  }
+
+  public Record(Domain domain, String name, String type, String content) {
+    this.domain = domain;
+    this.name = name;
+    this.type = type;
+    this.content = content;
+  }
 
   @Override
   public String toString() {

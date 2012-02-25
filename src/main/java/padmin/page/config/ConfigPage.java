@@ -23,6 +23,7 @@ import padmin.BasePage;
 import padmin.model.Config;
 import padmin.service.IConfigService;
 import padmin.wicket.FilteredListModel;
+import padmin.wicket.GridAttributeModifier;
 
 @MountPath("/config.html")
 public class ConfigPage extends BasePage {
@@ -54,7 +55,13 @@ public class ConfigPage extends BasePage {
         final Config config = item.getModelObject();
 
         item.add(new Label("configName", new ResourceModel(config.getKey())));
-        item.add(new AjaxEditableLabel<>("configValue", new PropertyModel<String>(config, "value")));
+        item.add(new AjaxEditableLabel<String>("configValue", new PropertyModel<String>(config, "value")) {
+          @Override
+          public void onEdit(AjaxRequestTarget target) {
+            getEditor().add(new GridAttributeModifier("grid_5"));
+            super.onEdit(target);
+          }
+        });
       }
     });
     
