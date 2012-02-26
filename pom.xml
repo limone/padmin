@@ -15,6 +15,7 @@
   </properties>
 
   <build>
+    <finalName>padmin</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
