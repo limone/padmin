@@ -3,7 +3,7 @@
 
   <groupId>633</groupId>
   <artifactId>padmin</artifactId>
-  <version>0.1</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>padmin</name>
