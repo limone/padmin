@@ -13,6 +13,27 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <developers>
+    <developer>
+      <id>mlaccetti</id>
+      <email>michael@laccetti.com</email>
+      <name>Michael Laccetti</name>
+      <organization>Limone Fresco Limited</organization>
+      <organizationUrl>http://limone.me/</organizationUrl>
+      <timezone>-5</timezone>
+      <url>http://laccetti.com/</url>
+      <roles>
+        <role>Visionary</role>
+      </roles>
+    </developer>
+  </developers>
+  
+  <scm>
+    <connection>git://github.com/mlaccetti/padmin.git</connection>
+    <developerConnection>git@github.com:mlaccetti/padmin.git</developerConnection>
+    <url>https://github.com/mlaccetti/padmin</url>
+  </scm>
 
   <build>
     <finalName>padmin</finalName>
