@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import padmin.app.PadminSession;
 import padmin.app.WicketApplication;
 import padmin.page.config.ConfigPage;
+import padmin.page.security.SignInPage;
 import padmin.security.RequiresAuthentication;
 
 @RequiresAuthentication
@@ -43,7 +44,7 @@ public class BasePage extends WebPage {
       }
     });
     
-    if (WicketApplication.get().isPadminConfigured() || getPage() instanceof ConfigPage) {
+    if (WicketApplication.get().isPadminConfigured() || getPage() instanceof ConfigPage || getPage() instanceof SignInPage) {
       add(new WebMarkupContainer("configured").setVisible(false));
     } else {
       add(new UnconfiguredFragment("configured", "configuredFragment", this));
