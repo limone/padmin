@@ -13,7 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
+
   <developers>
     <developer>
       <id>mlaccetti</id>
@@ -28,11 +28,11 @@
       </roles>
     </developer>
   </developers>
-  
+
   <scm>
-    <connection>git://github.com/mlaccetti/padmin.git</connection>
-    <developerConnection>git@github.com:mlaccetti/padmin.git</developerConnection>
-    <url>https://github.com/mlaccetti/padmin</url>
+    <connection>scm:git:git@github.com:mlaccetti/padmin.git</connection>
+    <url>scm:git:git@github.com:mlaccetti/padmin.git</url>
+    <developerConnection>scm:git:git@github.com:mlaccetti/padmin.git</developerConnection>
   </scm>
 
   <build>
@@ -54,7 +54,7 @@
         </configuration>
       </plugin>
     </plugins>
-    
+
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -165,7 +165,7 @@
       <artifactId>jcl-over-slf4j</artifactId>
       <version>1.6.4</version>
     </dependency>
-    
+
     <!-- Utilities -->
     <dependency>
       <groupId>commons-codec</groupId>
