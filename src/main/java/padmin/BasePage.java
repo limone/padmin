@@ -55,13 +55,14 @@ public class BasePage extends WebPage {
   public void renderHead(HtmlHeaderContainer container) {
     super.renderHead(container);
     
+    // container.getHeaderResponse().renderJavaScriptReference(new SharedResourceReference("padmin.js"));
+    
     container.getHeaderResponse().renderJavaScriptReference("js/jquery-1.7.1.min.js");
     container.getHeaderResponse().renderJavaScriptReference("js/jquery-ui-1.8.17.custom.min.js");
     container.getHeaderResponse().renderJavaScriptReference("js/plugins.js");
     container.getHeaderResponse().renderJavaScriptReference("js/scripts.js");
     
     container.getHeaderResponse().renderCSSReference("css/jquery-ui-1.8.17.custom.css");
-    container.getHeaderResponse().renderCSSReference("css/grid.css");
     container.getHeaderResponse().renderCSSReference("css/style.css");
   }
   

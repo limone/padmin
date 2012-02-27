@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextCleanupListener;
@@ -16,6 +17,9 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
   @Override
   public void onStartup(ServletContext sc) throws ServletException {
+    SLF4JBridgeHandler.install();
+    
+    
     log.debug("padmin starting up...");
 
     // Create the 'root' Spring application context

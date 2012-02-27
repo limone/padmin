@@ -28,7 +28,7 @@ import padmin.service.IConfigService;
 
 @Component
 public class WicketApplication extends WebApplication {
-  private static final Logger log = LoggerFactory.getLogger(WicketApplication.class);
+  protected static final Logger log = LoggerFactory.getLogger(WicketApplication.class);
   private static final String DEFAULT_ENCODING = "UTF-8";
   
   @Autowired

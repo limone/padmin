@@ -1,6 +1,7 @@
 package padmin.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -44,6 +46,9 @@ public class Record implements Serializable {
   @Column(name="change_date")
   private Long changeDate;
   
+  @Transient
+  private transient final String uuid = UUID.randomUUID().toString();
+  
   public Record() {
     // empty
   }
@@ -62,6 +67,10 @@ public class Record implements Serializable {
   @Override
   public String toString() {
     return "Record [id=" + id + ", domain=" + domain.getName() + ", name=" + name + ", type=" + type + ", content=" + content + ", ttl=" + ttl + ", prio=" + prio + ", changeDate=" + changeDate + "]";
+  }
+
+  public String getUuid() {
+    return uuid;
   }
 
   public Long getId() {
