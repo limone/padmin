@@ -1,18 +1,12 @@
 package padmin;
 
 import org.apache.wicket.Application;
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Fragment;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.request.cycle.RequestCycle;
-import org.apache.wicket.util.string.UrlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +21,6 @@ public class BasePage extends WebPage {
   protected final Logger internalLog = LoggerFactory.getLogger(BasePage.class);
   
   public BasePage() {
-    add(new WebComponent("ie9js").add(new AttributeModifier("src", new Model<>(UrlUtils.rewriteToContextRelative("js/ie9.js", RequestCycle.get())))));
-    
     final WebMarkupContainer loggedInContainer = new WebMarkupContainer("loggedInContainer");
     add(loggedInContainer.setVisible(PadminSession.get().isSignedIn()));
     
@@ -49,21 +41,6 @@ public class BasePage extends WebPage {
     } else {
       add(new UnconfiguredFragment("configured", "configuredFragment", this));
     }
-  }
-
-  @Override
-  public void renderHead(HtmlHeaderContainer container) {
-    super.renderHead(container);
-    
-    // container.getHeaderResponse().renderJavaScriptReference(new SharedResourceReference("padmin.js"));
-    
-    container.getHeaderResponse().renderJavaScriptReference("js/jquery-1.7.1.min.js");
-    container.getHeaderResponse().renderJavaScriptReference("js/jquery-ui-1.8.17.custom.min.js");
-    container.getHeaderResponse().renderJavaScriptReference("js/plugins.js");
-    container.getHeaderResponse().renderJavaScriptReference("js/scripts.js");
-    
-    container.getHeaderResponse().renderCSSReference("css/jquery-ui-1.8.17.custom.css");
-    container.getHeaderResponse().renderCSSReference("css/style.css");
   }
   
   private static final class UnconfiguredFragment extends Fragment {

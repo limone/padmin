@@ -52,7 +52,7 @@ public class FormValidator implements IVisitor<FormComponent<?>, Void> {
           message.markRendered();
 
           ValidationErrorFeedback feedback = (ValidationErrorFeedback) message.getMessage();
-          errors.add(StringEscapeUtils.escapeEcmaScript(feedback.getMessage()));
+          errors.add(StringEscapeUtils.escapeEcmaScript((String) feedback.getMessage()));
         }
       }
     }

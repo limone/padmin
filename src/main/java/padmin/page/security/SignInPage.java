@@ -65,9 +65,9 @@ public class SignInPage extends BasePage {
             break;
           case FAILED:
           case UNKNOWN_FAILURE:
+          default:
             log.error("Unexpected error while trying to sign in {}.", username);
             target.appendJavaScript("padmin.displayError(['An unexpected error occured.  Please cry for a while.']);");
-            break;
         }
       }
       

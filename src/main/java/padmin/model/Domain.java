@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,7 +41,7 @@ public class Domain implements Serializable {
   @Column
   private String account;
   
-  @OneToMany(mappedBy="domain", cascade=javax.persistence.CascadeType.ALL)
+  @OneToMany(mappedBy="domain", cascade=javax.persistence.CascadeType.ALL, fetch=FetchType.EAGER)
   @Cascade(CascadeType.ALL)
   private List<Record> records = new ArrayList<>();
   

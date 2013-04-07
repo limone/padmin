@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
-import org.apache.wicket.ajax.calldecorator.AjaxCallDecorator;
+import org.apache.wicket.ajax.attributes.AjaxCallListener;
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableLabel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -69,13 +69,16 @@ public class HomePage extends BasePage {
           }
 
           @Override
-          protected IAjaxCallDecorator getAjaxCallDecorator() {
-            return new AjaxCallDecorator() {
+          protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
+            super.updateAjaxAttributes(attributes);
+            
+            attributes.getAjaxCallListeners().add(new AjaxCallListener() {
+
               @Override
-              public CharSequence decorateScript(Component c, CharSequence script) {
-                return "padmin.deleteLink('" + domain.getName() + "', function() {" + script + "});";
+              public CharSequence getAfterHandler(Component component) {
+                return "padmin.deleteLink('" + domain.getName() + "');";
               }
-            };
+            });
           }
         });
         
