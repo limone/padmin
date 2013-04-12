@@ -3,6 +3,7 @@ package padmin.model;
 import java.io.Serializable;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,9 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 @Table(name="records")
 public class Record implements Serializable {
@@ -24,9 +22,8 @@ public class Record implements Serializable {
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
   
-  @ManyToOne(cascade={javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.PERSIST}, fetch=FetchType.EAGER)
+  @ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST}, fetch=FetchType.EAGER)
   @JoinColumn(name="domain_id", nullable=false, updatable=false)
-  @Cascade(CascadeType.SAVE_UPDATE)
   private Domain domain;
   
   @Column

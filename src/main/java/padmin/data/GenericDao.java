@@ -88,6 +88,8 @@ public class GenericDao implements IGenericDao {
   public void remove(Object entity) {
     if (em.contains(entity)) {
       em.remove(entity);
+    } else {
+      throw new RuntimeException("Entity was not managed in the current context.");
     }
   }
   
@@ -108,7 +110,7 @@ public class GenericDao implements IGenericDao {
 
   @Override
   public void update(String query, Map<String, Object> parameters) {
-    Query q = em.createNamedQuery(query);
+    Query q = em.createQuery(query);
     applyParameters(q, parameters);
     q.executeUpdate();
   }

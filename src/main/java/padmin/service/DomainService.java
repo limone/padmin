@@ -1,6 +1,8 @@
 package padmin.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +60,8 @@ public class DomainService implements IDomainService {
   @Override
   public void deleteRecord(Record record) {
     log.debug("Removing {}.", record.toString());
-    Record tmpRecord = getRecord(record.getId());
-    gd.remove(tmpRecord);
+    Map<String,Object> params = new HashMap<>();
+    params.put("id", record.getId());
+    gd.update("DELETE FROM Record r WHERE r.id = :id", params);
   }
 }

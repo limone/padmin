@@ -17,28 +17,26 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
   @Override
   public void onStartup(ServletContext sc) throws ServletException {
+    SLF4JBridgeHandler.uninstall();
     SLF4JBridgeHandler.install();
-    
-    
+
     log.debug("padmin starting up...");
 
-    // Create the 'root' Spring application context
-    AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-    ctx.register(SpringConfiguration.class);
-    ctx.scan("padmin");
-    ctx.refresh();
+    try (AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext()) {
+      // Create the 'root' Spring application context
 
-    // Manages the lifecycle
-    sc.addListener(new ContextLoaderListener(ctx));
-    sc.addListener(new ContextCleanupListener());
-    
-    // Filters
-    sc.addFilter("OpenEntityInViewFilter", OpenEntityManagerInViewFilter.class).addMappingForUrlPatterns(null, true, "/*");
-    
-    /*final Dynamic wicketFilterConfig = sc.addFilter("WicketFilter", WicketFilter.class);
-    wicketFilterConfig.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-    wicketFilterConfig.setAsyncSupported(true);*/
+      ctx.register(SpringConfiguration.class);
+      ctx.scan("padmin");
+      ctx.refresh();
 
-    log.debug("padmin initialized.");
+      // Manages the lifecycle
+      sc.addListener(new ContextLoaderListener(ctx));
+      sc.addListener(new ContextCleanupListener());
+
+      // Filters
+      sc.addFilter("OpenEntityInViewFilter", OpenEntityManagerInViewFilter.class).addMappingForUrlPatterns(null, true, "/*");
+
+      log.debug("padmin initialized.");
+    }
   }
 }

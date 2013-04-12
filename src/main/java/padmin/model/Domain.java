@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,9 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="domains")
@@ -41,8 +39,7 @@ public class Domain implements Serializable {
   @Column
   private String account;
   
-  @OneToMany(mappedBy="domain", cascade=javax.persistence.CascadeType.ALL, fetch=FetchType.EAGER)
-  @Cascade(CascadeType.ALL)
+  @OneToMany(mappedBy="domain", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
   private List<Record> records = new ArrayList<>();
   
   public Domain() {
